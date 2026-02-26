@@ -7,10 +7,12 @@
     "node": ">=18.0.0"
   },
   "scripts": {
+    "setup": "npm install && cd packages/ir-types && npm install",
     "lint": "cd packages/ir-types && npm run lint",
     "test": "cd packages/ir-types && npm run build && npm test && cd ../.. && npm run validate-ir",
     "typecheck": "cd packages/ir-types && npm run typecheck",
-    "validate-ir": "node scripts/validate-ir.mjs"
+    "validate-ir": "node scripts/validate-ir.mjs",
+    "validate-fixture": "node scripts/validate-fixture.mjs"
   },
   "devDependencies": {
     "ajv": "^8.12.0",

@@ -32,18 +32,33 @@ git clone https://github.com/<your-username>/st2stack.git
 cd st2stack
 ```
 
-# Install dependencies:
-```bash
-make install
+# Install dependencies
+
+**Windows (PowerShell, no make):**
+```powershell
+npm run setup
 ```
 
-Or manually:
+**macOS/Linux (or with make installed):**
 ```bash
+make install
+# or manually:
 npm install
 cd packages/ir-types && npm install
 ```
 
-# Development Commands
+# Development commands
+
+**Windows (PowerShell):**
+```powershell
+npm run lint
+npm run typecheck
+npm run test
+npm run validate-ir
+npm run validate-fixture
+```
+
+**macOS/Linux (make):**
 ```bash
 make lint
 make typecheck
