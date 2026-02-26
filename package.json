@@ -1,0 +1,20 @@
+{
+  "name": "st2stack",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Streamlit to FastAPI + Next.js scaffold generator",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "lint": "cd packages/ir-types && npm run lint",
+    "test": "cd packages/ir-types && npm run build && npm test && cd ../.. && npm run validate-ir",
+    "typecheck": "cd packages/ir-types && npm run typecheck",
+    "validate-ir": "node scripts/validate-ir.mjs"
+  },
+  "devDependencies": {
+    "ajv": "^8.12.0",
+    "ajv-formats": "^3.0.1"
+  },
+  "type": "module"
+}

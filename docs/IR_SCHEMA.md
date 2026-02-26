@@ -137,6 +137,9 @@ Container Node
 ```
 
 Input Node
+
+Supported widgets: selectbox, multiselect, slider, text_input, number_input, date_input, checkbox, **button** (e.g. Run / Submit in finance workflows).
+
 ```json
 {
   "id": "start_date",
@@ -151,6 +154,19 @@ Input Node
     "line_start": 10,
     "line_end": 12
   }
+}
+```
+
+Button example (e.g. Run):
+```json
+{
+  "id": "run_btn",
+  "kind": "input",
+  "widget": "button",
+  "label": "Run",
+  "binds_to": "run_clicked",
+  "data_type": "boolean",
+  "source_span": { "file": "app.py", "line_start": 5, "line_end": 5 }
 }
 ```
 
@@ -243,6 +259,8 @@ Compute Rules
     - model_load
 
 ## 5. Backend Plan
+
+The top-level IR key for this section is **`backend_plan`** (see Top-Level IR Object). Do not use a different key name (e.g. `backend`) in IR.
 
 Purpose
 Drive FastAPI generation deterministically.

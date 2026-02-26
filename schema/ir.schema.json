@@ -134,7 +134,8 @@
               "text_input",
               "number_input",
               "date_input",
-              "checkbox"
+              "checkbox",
+              "button"
             ]
           },
           "label": { "type": "string" },

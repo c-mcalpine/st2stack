@@ -37,7 +37,8 @@ export type InputWidget =
   | "text_input"
   | "number_input"
   | "date_input"
-  | "checkbox";
+  | "checkbox"
+  | "button";
 
 export type DataType = "date" | "number" | "string" | "boolean";
 export type AtomType = DataType | "list" | "object";

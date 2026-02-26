@@ -1,0 +1,60 @@
+# =========================
+# Node / TypeScript
+# =========================
+node_modules/
+dist/
+build/
+coverage/
+*.tsbuildinfo
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# =========================
+# Python (fixture apps)
+# =========================
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+env/
+
+# =========================
+# Docker
+# =========================
+docker-compose.override.yml
+*.local.yml
+
+# =========================
+# Test Artifacts
+# =========================
+fixtures/**/generated/
+fixtures/**/.cache/
+
+# =========================
+# IR outputs (generated)
+# =========================
+out/
+generated/
+tmp/
+
+# =========================
+# CLI temp downloads
+# =========================
+.st2stack/

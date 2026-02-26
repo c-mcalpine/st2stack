@@ -1,0 +1,32 @@
+{
+    "scan_version": "1.0.0",
+    "entry_file": "app.py",
+    "framework": "streamlit",
+    "imports": ["numpy", "pandas", "streamlit", "datetime"],
+    "env_vars": [],
+    "streamlit_widgets": [
+      "set_page_config",
+      "title",
+      "sidebar",
+      "header",
+      "selectbox",
+      "slider",
+      "date_input",
+      "subheader",
+      "button",
+      "columns",
+      "metric",
+      "dataframe",
+      "line_chart",
+      "info"
+    ],
+    "session_state_keys": [],
+    "files_referenced": [],
+    "unsupported_detected": [
+      {
+        "feature": "st.columns",
+        "severity": "low",
+        "note": "Layout-only; can be treated as main container children in v1."
+      }
+    ]
+  }

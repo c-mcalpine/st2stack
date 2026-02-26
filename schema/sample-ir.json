@@ -1,0 +1,33 @@
+{
+  "ir_version": "1.0.0",
+  "generated_at": "2025-01-15T12:00:00Z",
+  "app": {
+    "entry_file": "app.py",
+    "framework": "streamlit",
+    "streamlit_version": "1.31.0",
+    "python_version": "3.11",
+    "dependencies": [],
+    "env_vars": [],
+    "repo": {
+      "source": "upload",
+      "ref": "main",
+      "commit": "0000000000000000000000000000000000000000"
+    }
+  },
+  "ui_tree": [],
+  "state": {
+    "inputs": {},
+    "derived": {},
+    "session": {}
+  },
+  "compute_graph": [],
+  "backend_plan": {
+    "endpoints": [],
+    "schemas": {}
+  },
+  "assets": {
+    "models": [],
+    "data_sources": []
+  },
+  "warnings": []
+}
