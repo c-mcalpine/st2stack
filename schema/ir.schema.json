@@ -1,0 +1,359 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://st2stack.dev/schema/ir.schema.json",
+    "title": "st2stack IR Schema",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "ir_version",
+      "generated_at",
+      "app",
+      "ui_tree",
+      "state",
+      "compute_graph",
+      "backend_plan",
+      "assets",
+      "warnings"
+    ],
+    "properties": {
+      "ir_version": {
+        "type": "string",
+        "pattern": "^\\d+\\.\\d+\\.\\d+$",
+        "description": "Semver of the IR format."
+      },
+      "generated_at": {
+        "type": "string",
+        "format": "date-time",
+        "description": "ISO8601 timestamp in UTC when IR was generated."
+      },
+      "app": { "$ref": "#/$defs/app" },
+      "ui_tree": {
+        "type": "array",
+        "items": { "$ref": "#/$defs/uiNode" },
+        "description": "Root-level UI nodes; containers may nest children."
+      },
+      "state": { "$ref": "#/$defs/state" },
+      "compute_graph": {
+        "type": "array",
+        "items": { "$ref": "#/$defs/computeNode" }
+      },
+      "backend_plan": { "$ref": "#/$defs/backendPlan" },
+      "assets": { "$ref": "#/$defs/assets" },
+      "warnings": {
+        "type": "array",
+        "items": { "$ref": "#/$defs/warning" }
+      }
+    },
+    "$defs": {
+      "app": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "entry_file",
+          "framework",
+          "streamlit_version",
+          "python_version",
+          "dependencies",
+          "env_vars",
+          "repo"
+        ],
+        "properties": {
+          "entry_file": { "type": "string", "minLength": 1 },
+          "framework": { "type": "string", "const": "streamlit" },
+          "streamlit_version": { "type": "string" },
+          "python_version": { "type": "string" },
+          "dependencies": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "env_vars": {
+            "type": "array",
+            "items": { "type": "string", "pattern": "^[A-Z_][A-Z0-9_]*$" }
+          },
+          "repo": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["source", "ref", "commit"],
+            "properties": {
+              "source": { "type": "string", "enum": ["github", "upload"] },
+              "ref": { "type": "string" },
+              "commit": { "type": "string" }
+            }
+          }
+        }
+      },
+  
+      "sourceSpan": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["file", "line_start", "line_end"],
+        "properties": {
+          "file": { "type": "string", "minLength": 1 },
+          "line_start": { "type": "integer", "minimum": 1 },
+          "line_end": { "type": "integer", "minimum": 1 }
+        }
+      },
+  
+      "uiNode": {
+        "oneOf": [
+          { "$ref": "#/$defs/uiContainerNode" },
+          { "$ref": "#/$defs/uiInputNode" },
+          { "$ref": "#/$defs/uiOutputNode" }
+        ]
+      },
+  
+      "uiContainerNode": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "kind", "container_type", "children"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "kind": { "type": "string", "const": "container" },
+          "container_type": { "type": "string", "enum": ["sidebar", "main", "form"] },
+          "children": {
+            "type": "array",
+            "items": { "$ref": "#/$defs/uiNode" }
+          },
+          "source_span": { "$ref": "#/$defs/sourceSpan" }
+        }
+      },
+  
+      "uiInputNode": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "kind", "widget", "label", "binds_to", "data_type"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "kind": { "type": "string", "const": "input" },
+          "widget": {
+            "type": "string",
+            "enum": [
+              "selectbox",
+              "multiselect",
+              "slider",
+              "text_input",
+              "number_input",
+              "date_input",
+              "checkbox"
+            ]
+          },
+          "label": { "type": "string" },
+          "binds_to": { "type": "string", "minLength": 1 },
+          "data_type": {
+            "type": "string",
+            "enum": ["date", "number", "string", "boolean"]
+          },
+          "default": {},
+          "key": { "type": "string" },
+          "source_span": { "$ref": "#/$defs/sourceSpan" }
+        }
+      },
+  
+      "uiOutputNode": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "kind", "widget", "source"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "kind": { "type": "string", "const": "output" },
+          "widget": {
+            "type": "string",
+            "enum": ["dataframe", "table", "metric", "chart"]
+          },
+          "source": { "type": "string", "minLength": 1 },
+          "source_span": { "$ref": "#/$defs/sourceSpan" }
+        }
+      },
+  
+      "state": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["inputs", "derived", "session"],
+        "properties": {
+          "inputs": {
+            "type": "object",
+            "additionalProperties": { "$ref": "#/$defs/stateAtom" }
+          },
+          "derived": {
+            "type": "object",
+            "additionalProperties": { "$ref": "#/$defs/derivedAtom" }
+          },
+          "session": {
+            "type": "object",
+            "additionalProperties": { "$ref": "#/$defs/sessionAtom" }
+          }
+        }
+      },
+  
+      "stateAtom": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["data_type", "source"],
+        "properties": {
+          "data_type": {
+            "type": "string",
+            "enum": ["date", "number", "string", "boolean", "list", "object"]
+          },
+          "source": { "type": "string", "enum": ["ui", "session_state", "computed"] }
+        }
+      },
+  
+      "derivedAtom": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["depends_on", "computed_by"],
+        "properties": {
+          "depends_on": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "computed_by": { "type": "string", "minLength": 1 }
+        }
+      },
+  
+      "sessionAtom": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["data_type", "writes", "reads"],
+        "properties": {
+          "data_type": {
+            "type": "string",
+            "enum": ["date", "number", "string", "boolean", "list", "object"]
+          },
+          "writes": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "reads": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      },
+  
+      "computeNode": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "kind",
+          "source_span",
+          "inputs",
+          "outputs",
+          "side_effects",
+          "candidate_for_backend"
+        ],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "kind": { "type": "string", "const": "function" },
+          "source_span": { "$ref": "#/$defs/sourceSpan" },
+          "inputs": { "type": "array", "items": { "type": "string" } },
+          "outputs": { "type": "array", "items": { "type": "string" } },
+          "side_effects": {
+            "type": "array",
+            "items": { "type": "string", "enum": ["file_io", "network", "model_load"] }
+          },
+          "candidate_for_backend": { "type": "boolean" }
+        }
+      },
+  
+      "backendPlan": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["endpoints", "schemas"],
+        "properties": {
+          "endpoints": {
+            "type": "array",
+            "items": { "$ref": "#/$defs/endpoint" }
+          },
+          "schemas": {
+            "type": "object",
+            "additionalProperties": { "$ref": "#/$defs/schemaDef" }
+          }
+        }
+      },
+  
+      "endpoint": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "method",
+          "path",
+          "source_function",
+          "request_schema",
+          "response_schema"
+        ],
+        "properties": {
+          "name": { "type": "string" },
+          "method": { "type": "string", "enum": ["POST"] },
+          "path": { "type": "string", "pattern": "^/api/.*" },
+          "source_function": { "type": "string" },
+          "request_schema": { "type": "string" },
+          "response_schema": { "type": "string" }
+        }
+      },
+  
+      "schemaDef": {
+        "type": "object",
+        "additionalProperties": {
+          "type": "string"
+        }
+      },
+  
+      "assets": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["models", "data_sources"],
+        "properties": {
+          "models": {
+            "type": "array",
+            "items": { "$ref": "#/$defs/modelAsset" }
+          },
+          "data_sources": {
+            "type": "array",
+            "items": { "$ref": "#/$defs/dataSource" }
+          }
+        }
+      },
+  
+      "modelAsset": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "type", "path", "loaded_by"],
+        "properties": {
+          "name": { "type": "string" },
+          "type": { "type": "string", "enum": ["sklearn", "torch", "xgboost"] },
+          "path": { "type": "string" },
+          "loaded_by": { "type": "string" }
+        }
+      },
+  
+      "dataSource": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["type", "path", "access"],
+        "properties": {
+          "type": { "type": "string", "enum": ["csv", "parquet", "database"] },
+          "path": { "type": "string" },
+          "access": { "type": "string", "enum": ["read"] }
+        }
+      },
+  
+      "warning": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["severity", "category", "message", "suggestion"],
+        "properties": {
+          "severity": { "type": "string", "enum": ["low", "medium", "high"] },
+          "category": {
+            "type": "string",
+            "enum": ["unsupported", "ambiguity", "performance"]
+          },
+          "message": { "type": "string" },
+          "suggestion": { "type": "string" },
+          "source_span": { "$ref": "#/$defs/sourceSpan" }
+        }
+      }
+    }
+  }

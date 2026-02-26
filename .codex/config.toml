@@ -1,0 +1,10 @@
+# .codex/config.toml
+
+# Encourage small, testable steps
+max_patch_size_lines = 350
+
+# Prefer to run commands when changing code
+auto_run = true
+
+# (Optional) if you use project root markers beyond .git
+project_root_markers = [".git", ".codex/config.toml"]
