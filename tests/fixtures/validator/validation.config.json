@@ -1,0 +1,11 @@
+{
+  "backend": {
+    "compile_cmd": "npm --prefix backend run build",
+    "start_cmd": "npm --prefix backend run start",
+    "health_url": "http://127.0.0.1:3101/health",
+    "health_timeout_ms": 7000
+  },
+  "frontend": {
+    "build_cmd": "npm --prefix frontend run build"
+  }
+}
