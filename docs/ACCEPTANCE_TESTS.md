@@ -67,3 +67,42 @@ For the fixture app conversion:
 - Inputs: selectbox, multiselect, slider, text_input, number_input, date_input, checkbox
 - Outputs: metric, dataframe/table, line_chart/bar_chart placeholders
 - Button-driven execution is acceptable in v0/v1
+---
+
+
+## D) CLI Convert Contract (Milestone 6)
+
+### D1. Command and exit codes
+Command:
+- `node cli/dist/index.js convert --entry <app.py> --out <project_dir> [--zip <artifact.zip>]`
+
+Pipeline stages must run in order: scan → parse → generate-backend → generate-frontend → validate.
+
+Exit code contract:
+- `0` on success
+- `2` on validation failure
+- `1` on internal error
+
+### D2. Project layout (explicit)
+`convert` MUST always emit this exact top-level layout in `<project_dir>`:
+
+```text
+project/
+  ir.json
+  backend/
+  frontend/
+  validation.report.json
+  st2stack.validation.json
+```
+
+No nested `backend/backend` or `frontend/frontend` directories.
+No conditional/alternate artifact file names for these required outputs.
+
+### D3. Deterministic output
+For identical inputs:
+
+- `convert --out /tmp/a`
+- `convert --out /tmp/b`
+
+All generated artifacts must be byte-identical between `/tmp/a` and `/tmp/b` except for timestamp fields inside `validation.report.json`.
+
