@@ -2,7 +2,7 @@
 
 ## Objective
 Build v0 of "st2stack": convert a single-file Streamlit app into a runnable scaffold:
-- backend: FastAPI
+- backend: Node (Fastify) — platform API and worker are Node; no Python in the backend
 - frontend: Next.js (App Router)
 - shared: typed schemas
 - deliverable: zip artifact + local docker-compose that boots
@@ -16,7 +16,7 @@ This is NOT a pixel-perfect UI converter. It is a deterministic scaffold generat
 - websockets/realtime
 - background jobs
 - perfect reactivity (v0 may use "Run" button)
-- broad framework support (v0 targets Next.js+FastAPI only)
+- broad framework support (v0 targets Next.js + Node/Fastify only)
 
 ## Working agreements
 - Prefer deterministic parsing + template-based codegen. Use LLM only for naming/TODO text.
@@ -31,9 +31,9 @@ This is NOT a pixel-perfect UI converter. It is a deterministic scaffold generat
 - `docker compose up` must boot frontend + backend for generated output
 
 ## Coding conventions
-- Python 3.11+
-- Backend: FastAPI + Pydantic v2
-- Frontend: Next.js + TypeScript + Tailwind + shadcn/ui (minimal)
+- Node 18+ for platform (api, worker, cli, scanner, parser).
+- Backend: Fastify (Node); no Python in the platform backend.
+- Frontend: Next.js + TypeScript + Tailwind + shadcn/ui (minimal).
 - Add type hints and basic error handling.
 - Add unit tests for IR parsing and endpoint/schema generation.
 

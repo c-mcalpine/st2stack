@@ -1,6 +1,6 @@
 # st2stack
 
-Deterministic Streamlit → Full Stack (Next.js + FastAPI) compiler.
+Deterministic Streamlit → Full Stack (Next.js + Node API) compiler. The platform API and worker are **Node (Fastify)**; no Python is used in the backend.
 
 This is NOT an LLM wrapper.
 This is a compiler-style system:
@@ -18,8 +18,8 @@ Streamlit App
 
 - Node 18+
 - npm 9+
-- Python 3.10+ (for fixture apps only)
-- Docker (optional, for future integration tests)
+- Python 3.10+ (only for running Streamlit fixture apps, not for the platform)
+- Docker (optional, for integration tests)
 
 ---
 

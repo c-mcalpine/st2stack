@@ -263,7 +263,7 @@ Compute Rules
 The top-level IR key for this section is **`backend_plan`** (see Top-Level IR Object). Do not use a different key name (e.g. `backend`) in IR.
 
 Purpose
-Drive FastAPI generation deterministically.
+Drive backend codegen deterministically (e.g. generated FastAPI scaffold from this IR).
 Endpoint Spec
 ```json
 {

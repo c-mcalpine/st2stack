@@ -4,7 +4,7 @@
 Streamlit prototypes often require rewrite into institutional web stacks. This is slow and inconsistent.
 
 ## Goal
-Generate a runnable scaffold (Next.js + FastAPI) from a single Streamlit entry file.
+Generate a runnable scaffold (Next.js + backend, e.g. FastAPI) from a single Streamlit entry file. The st2stack platform itself (api, worker) is Node/Fastify; no Python in the platform backend.
 
 ## Inputs
 - repo or zip upload
@@ -13,7 +13,7 @@ Generate a runnable scaffold (Next.js + FastAPI) from a single Streamlit entry f
 
 ## Outputs
 - frontend/: Next.js App Router TypeScript app
-- backend/: FastAPI app with extracted endpoints
+- backend/: API with extracted endpoints (generated scaffold may be FastAPI or other)
 - shared/: request/response schemas
 - docker-compose.yml for local boot
 - job artifacts include: scan.json, ir.json, logs

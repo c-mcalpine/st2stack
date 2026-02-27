@@ -36,14 +36,14 @@ Deliverable:
 - Fixture IR matches `fixtures/.../expected/ir.json`
 - `make validate-ir` passes
 
-## Milestone 3 — Backend generator (FastAPI)
-Generate:
+## Milestone 3 — Backend generator (generated scaffold)
+Generate the user-facing backend from IR (e.g. FastAPI for the scaffold):
 - endpoints defined by `backend_plan.endpoints`
-- Pydantic schemas from `backend_plan.schemas`
+- schemas from `backend_plan.schemas`
 - service wrappers for compute nodes
 
 Deliverable:
-- backend boots and serves `/health`
+- generated backend boots and serves `/health` (platform api is already Node/Fastify)
 
 ## Milestone 4 — Frontend generator (Next.js)
 Generate:
