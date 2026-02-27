@@ -37,13 +37,14 @@ Deliverable:
 - `make validate-ir` passes
 
 ## Milestone 3 — Backend generator (generated scaffold)
-Generate the user-facing backend from IR (e.g. FastAPI for the scaffold):
+Generate the user-facing backend from IR as a **Node backend** (Fastify recommended):
 - endpoints defined by `backend_plan.endpoints`
-- schemas from `backend_plan.schemas`
+- schemas from `backend_plan.schemas` (Zod or JSON Schema; pick one and commit)
 - service wrappers for compute nodes
 
 Deliverable:
-- generated backend boots and serves `/health` (platform api is already Node/Fastify)
+- generated backend boots and serves `/health`
+- endpoints respond with correct shapes per schemas
 
 ## Milestone 4 — Frontend generator (Next.js)
 Generate:

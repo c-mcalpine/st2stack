@@ -31,11 +31,10 @@ Notes:
 A conversion is successful only if ALL checks pass in the worker sandbox:
 
 ### B1. Backend (generated scaffold)
-- dependencies install
-- for a generated Python backend: `python -m py_compile` succeeds
+- dependencies install (`npm ci` preferred when lockfile exists)
+- `npm run build` (if TypeScript) or `node -c` equivalent passes
+- backend boots
 - `/health` returns 200
-
-(Platform api is Node/Fastify and already serves `/health`.)
 
 ### B2. Frontend
 - `npm ci` succeeds
