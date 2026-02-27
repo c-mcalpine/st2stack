@@ -42,10 +42,9 @@ npm run setup
 **macOS/Linux (or with make installed):**
 ```bash
 make install
-# or manually:
-npm install
-cd packages/ir-types && npm install
 ```
+
+Both install root + all packages (ir-types, api, worker) in one go.
 
 # Development commands
 

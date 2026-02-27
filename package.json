@@ -7,7 +7,7 @@
     "node": ">=18.0.0"
   },
   "scripts": {
-    "setup": "npm install && cd packages/ir-types && npm install",
+    "setup": "npm install && cd packages/ir-types && npm install && cd ../api && npm install && cd ../worker && npm install",
     "lint": "cd packages/ir-types && npm run lint",
     "test": "cd packages/ir-types && npm run build && npm test && cd ../.. && npm run test:scanner && npm run test:parser && npm run validate-ir",
     "typecheck": "cd packages/ir-types && npm run typecheck",

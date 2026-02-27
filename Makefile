@@ -15,6 +15,8 @@ help:
 install:
 	npm install
 	cd packages/ir-types && npm install
+	cd packages/api && npm install
+	cd packages/worker && npm install
 
 lint:
 	cd packages/ir-types && npm run lint

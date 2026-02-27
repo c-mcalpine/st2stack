@@ -1,10 +1,10 @@
-FROM python:3.11-slim
+FROM node:20-alpine
 
 WORKDIR /app
 
-COPY requirements.txt ./requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
+COPY package.json ./
+RUN npm install --omit=dev
 
-COPY worker.py ./worker.py
+COPY src ./src
 
-CMD ["python", "worker.py"]
+CMD ["node", "src/worker.mjs"]
