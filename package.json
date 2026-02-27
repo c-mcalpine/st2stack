@@ -9,7 +9,7 @@
   "scripts": {
     "setup": "npm install && cd packages/ir-types && npm install && cd ../api && npm install && cd ../worker && npm install",
     "lint": "cd packages/ir-types && npm run lint",
-    "test": "cd packages/ir-types && npm run build && npm test && cd ../.. && npm run test:scanner && npm run test:parser && npm run test:backend-generator && npm run test:frontend-generator && npm run test:validator && npm run validate-ir",
+    "test": "cd packages/ir-types && npm run build && npm test && cd ../.. && npm run test:scanner && npm run test:parser && npm run test:cli-convert && npm run test:backend-generator && npm run test:frontend-generator && npm run test:validator && npm run validate-ir",
     "typecheck": "cd packages/ir-types && npm run typecheck",
     "validate-ir": "node scripts/validate-ir.mjs",
     "validate-fixture": "node scripts/validate-fixture.mjs",
@@ -18,7 +18,8 @@
     "test:parser": "node --test tests/parser.test.mjs",
     "test:validator": "node --test tests/validator.test.mjs",
     "test:backend-generator": "node --test tests/backend-generator.test.mjs",
-    "test:frontend-generator": "node --test tests/frontend-generator.test.mjs"
+    "test:frontend-generator": "node --test tests/frontend-generator.test.mjs",
+    "test:cli-convert": "node --test tests/cli-convert.test.mjs"
   },
   "devDependencies": {
     "ajv": "^8.12.0",
