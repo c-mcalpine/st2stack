@@ -5,7 +5,8 @@
   "type": "module",
   "main": "src/worker.mjs",
   "scripts": {
-    "start": "node src/worker.mjs"
+    "start": "node src/worker.mjs",
+    "validate": "node src/worker.mjs validate"
   },
   "dependencies": {
     "ioredis": "^5.4.1"
