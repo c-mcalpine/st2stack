@@ -31,9 +31,10 @@ Notes:
 A conversion is successful only if ALL checks pass in the worker sandbox:
 
 ### B1. Backend (generated scaffold)
+Backend must satisfy the contract in **docs/BACKEND_CONTRACT.md** (Node, `backend/package.json`, `npm run start`, GET `/health` → 200, listen on `PORT`). Concretely:
 - dependencies install (`npm ci` preferred when lockfile exists)
-- `npm run build` (if TypeScript) or `node -c` equivalent passes
-- backend boots
+- `npm run build` (if present) or configured build skip passes
+- backend boots via predictable start command
 - `/health` returns 200
 
 ### B2. Frontend
