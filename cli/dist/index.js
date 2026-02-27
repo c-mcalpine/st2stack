@@ -3,6 +3,8 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { parseToIr } from '../../packages/parser/src/index.mjs';
 import { validateGeneratedProject } from '../../packages/worker/src/validator.mjs';
+import { generateBackendFromIr } from '../../packages/worker/src/backend-generator.mjs';
+import { generateFrontendFromIr } from '../../packages/worker/src/frontend-generator.mjs';
 
 function getArg(flag, args) {
   const idx = args.indexOf(flag);
@@ -21,6 +23,38 @@ async function runParse(args) {
   const ir = await parseToIr(entry);
   await fs.mkdir(path.dirname(out), { recursive: true });
   await fs.writeFile(out, `${JSON.stringify(ir, null, 4)}\n`, 'utf8');
+}
+
+
+async function runGenerateBackend(args) {
+  const irPath = getArg('--ir', args);
+  const outDir = getArg('--out-dir', args);
+
+  if (!irPath || !outDir) {
+    console.error('Usage: node cli/dist/index.js generate-backend --ir <ir.json> --out-dir <output-dir>');
+    process.exit(1);
+  }
+
+  const irRaw = await fs.readFile(irPath, 'utf8');
+  const ir = JSON.parse(irRaw);
+  const result = await generateBackendFromIr({ ir, outputDir: outDir });
+  console.log(JSON.stringify(result, null, 2));
+}
+
+
+async function runGenerateFrontend(args) {
+  const irPath = getArg('--ir', args);
+  const outDir = getArg('--out-dir', args);
+
+  if (!irPath || !outDir) {
+    console.error('Usage: node cli/dist/index.js generate-frontend --ir <ir.json> --out-dir <output-dir>');
+    process.exit(1);
+  }
+
+  const irRaw = await fs.readFile(irPath, 'utf8');
+  const ir = JSON.parse(irRaw);
+  const result = await generateFrontendFromIr({ ir, outputDir: outDir });
+  console.log(JSON.stringify(result, null, 2));
 }
 
 async function runValidate(args) {
@@ -58,7 +92,17 @@ async function main() {
     return;
   }
 
-  console.error('Usage: node cli/dist/index.js <parse|validate> ...');
+  if (command === 'generate-backend') {
+    await runGenerateBackend(args);
+    return;
+  }
+
+  if (command === 'generate-frontend') {
+    await runGenerateFrontend(args);
+    return;
+  }
+
+  console.error('Usage: node cli/dist/index.js <parse|validate|generate-backend|generate-frontend> ...');
   process.exit(1);
 }
 
