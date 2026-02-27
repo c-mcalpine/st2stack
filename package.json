@@ -9,13 +9,14 @@
   "scripts": {
     "setup": "npm install && cd packages/ir-types && npm install && cd ../api && npm install && cd ../worker && npm install",
     "lint": "cd packages/ir-types && npm run lint",
-    "test": "cd packages/ir-types && npm run build && npm test && cd ../.. && npm run test:scanner && npm run test:parser && npm run validate-ir",
+    "test": "cd packages/ir-types && npm run build && npm test && cd ../.. && npm run test:scanner && npm run test:parser && npm run test:validator && npm run validate-ir",
     "typecheck": "cd packages/ir-types && npm run typecheck",
     "validate-ir": "node scripts/validate-ir.mjs",
     "validate-fixture": "node scripts/validate-fixture.mjs",
     "scan": "node scripts/run-scan.mjs",
     "test:scanner": "node --test tests/scanner.test.mjs",
-    "test:parser": "node --test tests/parser.test.mjs"
+    "test:parser": "node --test tests/parser.test.mjs",
+    "test:validator": "node --test tests/validator.test.mjs"
   },
   "devDependencies": {
     "ajv": "^8.12.0",
